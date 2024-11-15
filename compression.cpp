@@ -3,7 +3,14 @@
 #include <locale>
 
 using namespace std;
- 
+string completa(string bin, int bit){
+    string aux = bin; 
+    while(aux.size() != bit){
+        aux = '0'+aux;
+    }
+    return aux;
+}
+
 string toBin(int in){
     string aux = "";
     int resto;
@@ -44,52 +51,33 @@ string byteTostr(string bin){
     return out;
 }
 
-vector<int> compression(wstring text){
-    vector<int> out;
+vector<string> compression(wstring text, int max = 12){
+    vector<string> out;
     unordered_map<string, string> table;
     for(int i=0; i<=255;i++){
-        table[byteTobits(char(i))] = to_string(i);
+        table[byteTobits(char(i))] = completa(toBin(i),8);
     }
 
     string term = byteTobits(text[0]);
     int value = 256;
+    int bit = 8;
 
     for(int i=1; i<text.size();i++){
+        if(value == pow(2,bit)) bit++;
         string symbol = byteTobits(text[i]);
         if(table.count(term + symbol)){
             term = term + symbol;
         }else{
-            out.push_back(stoi(table[term]));
-            table[term + symbol] = to_string(value++);
+            out.push_back(table[term]);
+            table[term + symbol] = completa(toBin(value++),bit);
             term = symbol;
         }
     }
 
-    out.push_back(stoi(table[term]));
+    out.push_back(table[term]);
     return out;
 }
 
-vector<int> convertToIntVector(const vector<string>& strVector) {
-    vector<int> intVector;
-    for (const string& str : strVector) {
-        if (str.length() == 1) {
-            // Converte o caractere para seu valor ASCII
-            int num = static_cast<int>(str[0]);
-            intVector.push_back(num);
-        } else {
-            // Tenta converter strings numéricas
-            try {
-                int num = stoi(str);
-                intVector.push_back(num);
-            } catch (const invalid_argument& e) {
-                cerr << "Erro: argumento inválido durante a conversão de string para int: " << str << endl;
-            } catch (const out_of_range& e) {
-                cerr << "Erro: número fora do intervalo permitido para int: " << str << endl;
-            }
-        }
-    }
-    return intVector;
-}
 
 void decompression(vector<int> codein){
     unordered_map<string, string> table;
@@ -121,20 +109,11 @@ void decompression(vector<int> codein){
 }
 
 int main(){
-    cout << "ç" << endl;
-    wstring aux = L"Era uma vez um mundo complexo onde as linguagens de programação não apenas existiam em suas formas básicas, mas eram compostas por variantes, dialetos, compilações e subestruturas. C++ é apenas uma das estrelas que brilham em um firmamento cheio de JavaScript, Python, Rust, Haskell, Go, Kotlin, Ruby e incontáveis outras. Imagine, por exemplo, um projeto onde os desenvolvedores trabalham simultaneamente em múltiplas plataformas, usando diferentes IDEs como Visual Studio Code, Eclipse, IntelliJ IDEA e até editores minimalistas como Vim e Emacs. Além disso, consideremos o seguinte: var123 + func$456 * [calc_789]{expressão_alfa} ÷ 98% & concatenado com texto Dentro desse emaranhado, scripts de automação se entrelaçam com APIs RESTful, JSON, XML e chamadas assíncronas para lidar com dados de grandes volumes, escalando de terabytes para petabytes de informação. Assim, surgem novos desafios de escalabilidade, segurança cibernética, otimização de algoritmos, computação paralela e aprendizado de máquina~.";
-    vector<int> cod = compression(aux);
+    wstring aux = L"Este capítulo inicia com uma introdução ao projeto de software, na qual procuramos definir e motivar a importância desse tipo de atividade (Seção 5.1). Em seguida, discutimos diversas considerações relevantes em projetos de software. Especificamente, tratamos de Integridade Conceitual (Seção 5.2), Ocultamento de Informação (Seção 5.3), Coesão (Seção 5.4) e Acoplamento (Seção 5.5). Na Seção 5.6 discutimos um conjunto de princípios de projeto, incluindo: Responsabilidade Única, Segregação de Interfaces, Inversão de Dependências, Prefira Composição a Herança, Demeter, Aberto/Fechado e Substituição de Liskov. Por fim, tratamos de métricas para avaliar a qualidade de projetos de software (Seção 5.7). 5.1 Introdução A afirmação de John Ousterhout que abre este capítulo é uma excelente definição para projeto de software. Apesar de não afirmar explicitamente, a citação assume que quando falamos de projeto estamos procurando uma solução para um determinado problema. No contexto de Engenharia de Software, esse problema consiste na implementação de um sistema que atenda aos requisitos funcionais e não-funcionais definidos por um cliente — ou Dono do Produto, para usar um termo mais moderno. Prosseguindo, Ousterhout sugere como devemos proceder para chegar a essa solução: devemos decompor, isto é, quebrar o problema inicial, que pode ser bastante complexo, em partes menores. Por fim, a frase impõe uma restrição a essa decomposição: ela deve permitir que cada uma das partes do projeto possa ser resolvida (ou implementada) de forma independente.Essa explicação pode passar a impressão de que projeto é uma atividade simples. No entanto, no projeto de software temos que combater um grande inimigo: a complexidade que caracteriza sistemas modernos de software. Talvez, por isso, Ousterhout mencione que a decomposição de um problema em partes independentes é uma questão fundamental, não apenas em Engenharia de Software, mas em toda Ciência da Computação! Uma estratégia importante para combater a complexidade de sistemas de software passa pela criação de abstrações. Uma abstração — pelo menos em Computação — é uma representação simplificada de uma entidade. Apesar de simplificada, ela nos permite interagir e tirar proveito da entidade abstraída, sem que tenhamos que dominar todos os detalhes envolvidos na sua implementação. Dentre outros, funções, classes, interfaces, pacotes e bibliotecas são os instrumentos clássicos oferecidos por linguagens de programação para criação de abstrações.Em resumo, o primeiro objetivo de projeto de software é decompor um problema em partes menores. Além disso, deve ser possível implementar tais partes de forma independente. Por fim, mas não menos importante, essas partes devem ser abstratas. Em outras palavras, a implementação delas pode ser desafiadora e complexa, mas apenas para os desenvolvedores envolvidos em tal tarefa. Para os demais desenvolvedores, deve ser simples usar a abstração que foi criada.5.1.1 Exemplo Para ilustrar essa introdução a projetos de software, vamos usar o exemplo de um compilador. Os requisitos no caso são claros: dado um programa em uma linguagem X devemos convertê-lo em um programa em uma linguagem Y, que costuma ser a linguagem de uma máquina. No entanto, o projeto de um compilador não é trivial. Então, após anos de pesquisa, descobriu-se uma solução — ou projeto — para esse tipo de sistema, a qual é ilustrada na figura da próxima página.";
+    vector<string> cod = compression(aux);
     vector<string> ans;
     for(auto it: cod){
-        if(it<=255) ans.push_back(string(1, char(it)));
-        else ans.push_back(to_string(it));
+        cout << it << endl;
     }
-    cout << endl;
-
-    for(auto it: ans){
-        cout << it << " ";
-    }
-    cout << endl;
-    vector<int> codin = convertToIntVector(ans);
-    decompression(cod);
+    
 }
