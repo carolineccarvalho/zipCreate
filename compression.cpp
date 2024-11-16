@@ -64,14 +64,14 @@ vector<string> compression(wstring text, int max = 12){
     int bit = 8;
 
     for(int i=1; i<text.size();i++){
-        if(value == pow(2,bit)) bit++;
+        if(value == (1<<bit)) bit++;
         string symbol = byteTobits(text[i]);
 
         if(table.countTrie(term + symbol)){
             term = term + symbol;
         }else{
             out.push_back(table.getPalavra(term));
-            if(value<pow(2,max+1)) table.getPalavra(term + symbol) = completa(toBin(value++),bit);
+            if(bit<=max) table.getPalavra(term + symbol) = completa(toBin(value++),bit);
             else{
                 table.clear();
                 for(int i=0; i<=255;i++){
@@ -105,11 +105,13 @@ void decompression(vector<int> codein, int max=12){
     }
     int value = 256;
     int code = codein[0];
+    int bit = 8;
     string term = table.getPalavra(toBin(code));
     string output = term;
     string entry;
 
     for(int i=1; i<codein.size(); i++){
+        if(value == (1<<bit)) bit++;
         code = codein[i];
         if(!table.countTrie(toBin(code))){
             entry = term + term[0];
@@ -117,7 +119,7 @@ void decompression(vector<int> codein, int max=12){
             entry = table.getPalavra(toBin(code));
         }      
         output += entry;
-        if(value<pow(2,max+1)) table.getPalavra(toBin(value++)) = term + entry[0];
+        if(bit<=max) table.getPalavra(toBin(value++)) = term + entry[0];
         else{
             table.clear();
             for(int i=0; i<=255;i++){
@@ -125,6 +127,7 @@ void decompression(vector<int> codein, int max=12){
             }
             value = 256;
             table.getPalavra(toBin(value++)) = term + entry[0];
+            bit=9;
         }
         term = entry;
     }
