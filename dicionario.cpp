@@ -28,15 +28,15 @@ void Dicionario::apagaTrie(TrieNode* node){
     }
     delete node;
 }
-void Dicionario::insert(const std::string& chave, const std::string& codigo) {
+void Dicionario::insert(const std::string& palavra, const std::string& codigo) {
     TrieNode* curr = raiz;
     int index = 0;
 
-    while (index < chave.size()) {
+    while (index < palavra.size()) {
         bool found = false;
         for (auto &child : curr->filhos) {
             const std::string &edge = child.first;
-            int tamanhoPrefixComum = prefixoEmComum(chave, edge, index);
+            int tamanhoPrefixComum = prefixoEmComum(palavra, edge, index);
 
             if (tamanhoPrefixComum == edge.size()) {
                 curr = child.second;
@@ -45,15 +45,15 @@ void Dicionario::insert(const std::string& chave, const std::string& codigo) {
                 break;
             } else if (tamanhoPrefixComum > 0) {
                 splitNode(curr, edge, tamanhoPrefixComum);
-                curr = curr->filhos[chave.substr(index, tamanhoPrefixComum)];
+                curr = curr->filhos[palavra.substr(index, tamanhoPrefixComum)];
                 index += tamanhoPrefixComum;
                 found = true;
                 break;
             }
         }
         if (!found) {
-            curr->filhos[chave.substr(index)] = new TrieNode();
-            curr->filhos[chave.substr(index)]->code = codigo;
+            curr->filhos[palavra.substr(index)] = new TrieNode();
+            curr->filhos[palavra.substr(index)]->code = codigo;
             return;
         }
     }
@@ -64,8 +64,8 @@ void Dicionario::printTrie() {
     printTrieRecursive(raiz, "", true);
 }
 
-bool Dicionario::countTrie(const std::string& codigo) {
-    return searchTrie(raiz, codigo);
+bool Dicionario::countTrie(const std::string& chave) {
+    return searchTrie(raiz, chave);
 }
 
 bool Dicionario::searchTrie(TrieNode* curr, const std::string& codigo){

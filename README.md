@@ -36,33 +36,93 @@
     <p> 
     O construtor <code>Dicionario()</code> é responsável por inicializar a estrutura de dados, criando a raiz da árvore e conectando-a a dois filhos, um com o valor "0" e outro com o valor "1". Essa implementação está relacionada ao algoritmo LZW, que é inicializado com todos os simbolos do alfabeto das cadeias de entrada. Na nossa implementação, apenas esses dois caracteres são adicionados, pois estamos adotando uma implementação que aceitará e retornará cadeias binárias. O destrutor <code>~Dicionario</code> garante a liberação de memória, percorrendo e removendo todos os nós da árvore, evitando vazamentos de memória.
     </p> 
-    <li>void insert(const string& chave, const string& codigo)</li>
+    <li>void insert(const string& palavra, const string& codigo)</li>
     <p>
-    A função <code>insert()</code> é responsável por inserir novas palavras no dicionário. Para manter a estrutura da Trie Compacta, a inserção é feita da seguinte forma: a partir da raiz, o algoritmo verifica se algum dos filhos começa com o mesmo caractere da chave que queremos adicionar, o que certamente ocorrerá devido à inicialização mencionada anteriormente. Em seguida, o algoritmo verifica se é possível agrupar prefixos em comum com os nós já existentes. Para cada filho, é analisado quanto do prefixo da chave é comum ao valor da aresta do nó. Se nenhum filho correspondente for encontrado, o nó atual é atualizado para incluir a nova chave e o código, criando um novo nó. Caso um filho correspondente seja encontrado, duas situações podem ocorrer: se o tamanho do prefixo comum for igual ao tamanho da aresta, o índice da chave é avançado e o processo continua; se o prefixo comum for menor que o tamanho da aresta, o nó atual é dividido para manter a estrutura compacta.
+    A função <code>insert()</code> é responsável por inserir novas palavras no dicionário. Para manter a estrutura da Trie Compacta, a inserção é feita da seguinte forma: a partir da raiz, o algoritmo verifica se algum dos filhos começa com o mesmo caractere da palavra que queremos adicionar, o que certamente ocorrerá devido à inicialização mencionada anteriormente. Em seguida, o algoritmo verifica se é possível agrupar prefixos em comum com os nós já existentes. Para cada filho, é analisado quanto do prefixo da palavra é comum ao valor da aresta do nó. Se nenhum filho correspondente for encontrado, o nó atual é atualizado para incluir a nova palavra e o código, criando um novo nó. Caso um filho correspondente seja encontrado, duas situações podem ocorrer: se o tamanho do prefixo comum for igual ao tamanho da aresta, o índice da palavra é avançado e o processo continua; se o prefixo comum for menor que o tamanho da aresta, o nó atual é dividido para manter a estrutura compacta.
     </p>
-    <li>bool searchTrie(const string& chave)</li>
+    <li>bool countTrie(const std::string& chave)</li>
     <p>
-    A função <code>searchTrie()</code> tem como objetivo retornar <code>true</code> caso a string passada como parâmetro esteja presente no dicionário e <code>false</code> caso contrário. A busca segue um processo semelhante ao da função <code>insert()</code>. Começando pela raiz, o algoritmo percorre os filhos dos nós, verificando se existe um prefixo comum com a chave. Se o prefixo comum for igual ao tamanho da aresta, o nó atual é atualizado e o índice da chave é avançado. Se o prefixo comum for menor, a chave não pode ser encontrada e a função retorna <code>false</code>. Se a chave for completamente percorrida e o código do nó final não estiver vazio, a função retorna <code>true</code>, caso contrário, retorna <code>false</code>.
+    A função <code>countTrie</code> verifica, de forma recursiva, se a chave especificada está presente na Trie. Ela percorre os nós e verifica a chave associada, e retorna <code>true</code> caso a chave seja encontrada. Caso contrário, retorna <code>false</code>.
     </p>
-    <li>string stringTrie(const string& chave);</li>
+    <li>string getPalavra(const string& chave);</li>
     <p>
-    A função <code>stringTrie()</code> unciona de maneira semelhante à função <code>searchTrie()</code>, no entanto, em vez de retornar um valor booleano, ela retorna o código associado à chave buscada.
+    A função <code>getPalavra</code> percorre recursivamente os nós da Trie, verificando se a chave fornecida corresponde a uma chave armazenada. Se a chave for encontrada, a função retorna a palavra associada a ela. Caso contrário, retorna uma string vazia.
     </p>
-    <li>bool deleteTrie(const string& chave);</li>
+    <li>bool clear(const string& chave);</li>
     <p>
-    A função <code>deleteTrie()</code> é responsável por remover uma chave específica do dicionário. Ela utiliza a função auxiliar <code>removeTrie</code>, que realiza a remoção de forma recursiva, garantindo que nenhum nó desnecessário permaneça na estrutura da árvore após a exclusão. Quando a chave é completamente percorrida, seu código é redefinido para "-1", indicando que o nó não representa mais uma chave válida. Se o nó correspondente não possuir filhos, ele é removido. Caso contrário, a função verifica se é possível compactar a estrutura; se sim, realiza a compactação, mantendo a eficiência da árvore. Se a chave não for encontrada, a função retorna <code>false</code>.
+    A função <code>clear()</code> remove todos os nós da estrutura do dicionário, similar ao comportamento do destrutor da classe, e recria uma nova raiz para a Trie. Essa funcionalidade é especialmente útil nas operações de compressão e descompressão de textos com mais de 4000 caracteres, onde é necessário reinicializar o dicionário para continuar o processamento.
     </p>
     </ul>
-<h4>Decisões de Projeto</h4>
 <h4>Exemplos de Uso</h4>
 <ul>
 <li>Inserção</li>
+<pre><code= cpp>
+int main(){
+    Dicionario dic;
+    dic.insert("0001110", "1");
+    dic.insert("0100010", "2");
+    dic.insert("1001010", "3");
+    dic.insert("1001000", "4");
+    dic.insert("0001100", "5");
+    dic.printTrie();
+    return 0;
+}
+</code></pre>
+<img src = "imagens/inserirTrie.png" alt = "inserirTrie" title = "InserirTrie" width="300">
 <li>Busca</li>
+<pre><code>
+int main(){
+    Dicionario dic;
+    dic.insert("0001110", "1");
+    dic.insert("0100010", "2");
+    dic.insert("1001010", "3");
+    dic.insert("1001000", "4");
+    dic.insert("0001100", "5");
+    cout << dic.countCode("5") << endl;
+    cout << dic.getPalavra("5") << endl;
+    return 0;
+}
+</code></pre>
+<img src = "imagens/busca.png" alt = "buscaTrie" title = "BuscaTrie" width="400">
 <li>Remoção</li>
+<pre><code>
+int main(){
+    Dicionario dic;
+    dic.insert("0001110", "1");
+    dic.insert("0100010", "2");
+    dic.insert("1001010", "3");
+    dic.insert("1001000", "4");
+    dic.insert("0001100", "5");
+    cout << dic.countCode("5") << endl;
+    cout << dic.getPalavra("5") << endl;
+    return 0;
+}
+</code></pre>
+<img src = "imagens/remove.png" alt = "removeTrie" title = "Removerie" width="300">
 </ul>
 <h3>LZW de tamanho fixo</h3>
 <h3>LZW de tamanho variável</h3>
 <h2 id="instrucoes"> Instrucoes de Uso</h2>
 <h2 id="testes"> Testes</h2>
 <h2 id="colab"> Responsáveis</h2>
+<table>
+  <tr>
+    <td align="center">
+      <a href="#">
+        <img src="https://avatars.githubusercontent.com/u/119982741?v=4" width="100px;" alt="Fernanda Kipper Profile Picture"/><br>
+        <sub>
+          <b>Déborah Yamamoto</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#">
+        <img src="https://avatars.githubusercontent.com/u/103433489?v=4" width="100px;" alt="Elon Musk Picture"/><br>
+        <sub>
+          <b>Caroline Carvalho</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
     
