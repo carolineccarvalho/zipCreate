@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include <codecvt>
 #include <locale>
+#include "dicionario.h"
 
 using namespace std;
 string completa(string bin, int bit){
@@ -53,9 +54,9 @@ string byteTostr(string bin){
 
 vector<string> compression(wstring text, int max = 12){
     vector<string> out;
-    unordered_map<string, string> table;
+    Dicionario table;
     for(int i=0; i<=255;i++){
-        table[byteTobits(char(i))] = completa(toBin(i),max);
+        table.insert(completa(toBin(i),max), byteTobits(char(i)));
     }
 
     string term = byteTobits(text[0]);
@@ -66,26 +67,26 @@ vector<string> compression(wstring text, int max = 12){
         if(value == pow(2,bit)) bit++;
         string symbol = byteTobits(text[i]);
 
-        if(table.count(term + symbol)){
+        if(table.countTrie(term + symbol)){
             term = term + symbol;
         }else{
-            out.push_back(table[term]);
-            if(value<pow(2,max+1)) table[term + symbol] = completa(toBin(value++),max);
+            out.push_back(table.getPalavra(term));
+            if(value<pow(2,max+1)) table.getPalavra(term + symbol) = completa(toBin(value++),max);
             else{
                 table.clear();
                 for(int i=0; i<=255;i++){
-                    table[byteTobits(char(i))] = completa(toBin(i),8);
+                    table.insert(completa(toBin(i),8), byteTobits(char(i)));
                 }
                 value = 256;
                 bit = 9;
-                table[term + symbol] = completa(toBin(value++),max);
+                table.getPalavra(term + symbol) = completa(toBin(value++),max);
 
             }
             term = symbol;
         }
     }
 
-    out.push_back(table[term]);
+    out.push_back(table.getPalavra(term));
     return out;
 }
 
@@ -98,32 +99,32 @@ vector<int> bin2str(vector<string> bin){
 }
 
 void decompression(vector<int> codein, int max=12){
-    unordered_map<string, string> table;
+    Dicionario table;
     for(int i=0; i<=255;i++){
-        table[toBin(i)] = string(1, char(i));
+        table.insert(string(1, char(i)), toBin(i));
     }
     int value = 256;
     int code = codein[0];
-    string term = table[toBin(code)];
+    string term = table.getPalavra(toBin(code));
     string output = term;
     string entry;
 
     for(int i=1; i<codein.size(); i++){
         code = codein[i];
-        if(!table.count(toBin(code))){
+        if(!table.countTrie(toBin(code))){
             entry = term + term[0];
         }else{
-            entry = table[toBin(code)];
+            entry = table.getPalavra(toBin(code));
         }      
         output += entry;
-        if(value<pow(2,max+1)) table[toBin(value++)] = term + entry[0];
+        if(value<pow(2,max+1)) table.getPalavra(toBin(value++)) = term + entry[0];
         else{
             table.clear();
             for(int i=0; i<=255;i++){
-                table[toBin(i)] = string(1, char(i));
+                table.insert(string(1, char(i)),toBin(i));
             }
             value = 256;
-            table[toBin(value++)] = term + entry[0];
+            table.getPalavra(toBin(value++)) = term + entry[0];
         }
         term = entry;
     }

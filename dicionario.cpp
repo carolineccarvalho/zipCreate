@@ -10,6 +10,24 @@ Dicionario::Dicionario() {
     nextCode = "2";
 }
 
+Dicionario::~Dicionario(){
+    if (raiz) {
+        apagaTrie(raiz);
+    }
+}
+
+void Dicionario::clear(){
+    apagaTrie(raiz);
+    raiz = new TrieNode;
+}
+void Dicionario::apagaTrie(TrieNode* node){
+    if (!node) return;
+    for(auto& child : node->filhos){
+        apagaTrie(child.second);
+        child.second = nullptr;
+    }
+    delete node;
+}
 void Dicionario::insert(const std::string& chave, const std::string& codigo) {
     TrieNode* curr = raiz;
     int index = 0;
@@ -46,55 +64,35 @@ void Dicionario::printTrie() {
     printTrieRecursive(raiz, "", true);
 }
 
-bool Dicionario::searchTrie(const std::string& chave) {
-    TrieNode* curr = raiz;
-    int index = 0;
-
-    while (index < chave.size()) {
-        bool found = false;
-        for (auto &child : curr->filhos) {
-            const std::string &edge = child.first;
-            int tamanhoPrefixComum = prefixoEmComum(chave, edge, index);
-
-            if (tamanhoPrefixComum == edge.size()) {
-                curr = child.second;
-                index += tamanhoPrefixComum;
-                found = true;
-                break;
-            } else if (tamanhoPrefixComum > 0) {
-                return false;
-            }
-        }
-        if (!found) {
-            return false;
-        }
-    }
-    return !curr->code.empty();
+bool Dicionario::countTrie(const std::string& codigo) {
+    return searchTrie(raiz, codigo);
 }
-string Dicionario::stringTrie(const string& chave){
-    TrieNode* curr = raiz;
-    int index = 0;
 
-    while (index < chave.size()) {
-        bool found = false;
-        for (auto &child : curr->filhos) {
-            const std::string &edge = child.first;
-            int tamanhoPrefixComum = prefixoEmComum(chave, edge, index);
-
-            if (tamanhoPrefixComum == edge.size()) {
-                curr = child.second;
-                index += tamanhoPrefixComum;
-                found = true;
-                break;
-            } else if (tamanhoPrefixComum > 0) {
-                return "";
-            }
-        }
-        if (!found) {
-            return "";
+bool Dicionario::searchTrie(TrieNode* curr, const std::string& codigo){
+        if (curr->code == codigo) {
+        return true;
+    }
+    for (auto& child : curr->filhos) {
+        if (searchTrie(child.second, codigo)) {
+            return true;
         }
     }
-    return curr->code;
+    return false;
+}
+string Dicionario::stringTrie(TrieNode* curr, const std::string& codigo, const string& prefixo){
+        if (curr->code == codigo) {
+        return prefixo;
+    }
+    for (auto& child : curr->filhos) {
+        string palavra = stringTrie(child.second, codigo, prefixo + child.first);
+        if (!palavra.empty()) {
+            return palavra;
+        }
+    }
+    return "";
+}
+string Dicionario::getPalavra(const string& codigo){
+        return stringTrie(raiz, codigo, "");
 }
 bool Dicionario::deleteTrie(const std::string& chave) {
     return removeTrie(raiz, chave);
@@ -161,3 +159,4 @@ bool Dicionario::removeTrie(TrieNode* curr, const std::string& chave, int index)
     }
     return false;
 }
+
