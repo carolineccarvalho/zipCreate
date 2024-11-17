@@ -213,6 +213,73 @@ string decompressionFixed(vector<int> codein, int max=12){
     return output;
 }
 
+void writeBinaryStringToFile(const std::string& binStr, const std::string& filename) {
+    std::ofstream outputFile(filename, std::ios::binary);
+    if (!outputFile) {
+        std::cerr << "Erro ao abrir o arquivo para escrita." << std::endl;
+        return;
+    }
+
+    for (size_t i = 0; i < binStr.size(); i += 8) {
+       
+        std::string byteStr = binStr.substr(i, 8);
+        
+        unsigned char byte = std::bitset<8>(byteStr).to_ulong();
+
+        outputFile.write(reinterpret_cast<const char*>(&byte), sizeof(byte));
+    }
+
+    outputFile.close();
+    std::cout << "Arquivo binário escrito com sucesso!" << std::endl;
+}
+
+const char* grayscaleMap = "@%#*+=-:. ";  // Mapa de caracteres ASCII
+
+// Função para converter um pixel RGB em tom de cinza
+unsigned char rgbToGray(unsigned char r, unsigned char g, unsigned char b) {
+    return static_cast<unsigned char>(0.299 * r + 0.587 * g + 0.114 * b);
+}
+
+// Função para ler um arquivo BMP simples
+string bmpToAscii(const std::string& filename) {
+    std::ifstream file(filename, std::ios::binary);
+    if (!file) {
+        std::cerr << "Erro ao abrir o arquivo." << std::endl;
+        return "";
+    }
+
+    unsigned char header[54];
+    file.read(reinterpret_cast<char*>(header), 54);
+
+    // Verifica se é um arquivo BMP
+    if (header[0] != 'B' || header[1] != 'M') {
+        std::cerr << "Arquivo não é um BMP válido." << std::endl;
+        return"";
+    }
+
+    int width = header[18] | (header[19] << 8) | (header[20] << 16) | (header[21] << 24);
+    int height = header[22] | (header[23] << 8) | (header[24] << 16) | (header[25] << 24);
+
+    int rowPadded = (width * 3 + 3) & (~3);
+    if (rowPadded <= 0 || width <= 0 || height <= 0) {
+        std::cerr << "Dimensões da imagem são inválidas." << std::endl;
+        return "";
+    }
+    string aux = "";
+    std::vector<unsigned char> row(rowPadded);
+    for (int i = 0; i < height; i++) {
+        file.read(reinterpret_cast<char*>(row.data()), rowPadded);
+        for (int j = 0; j < width * 3; j += 3) {
+            unsigned char gray = rgbToGray(row[j + 2], row[j + 1], row[j]);
+            char asciiChar = grayscaleMap[gray * 9 / 255];
+            aux += asciiChar;
+        }
+    }
+    file.close();
+    return aux;
+}
+
+
 int main(){
     cout << "--------------------------------------" << endl;
     cout << "               PROJETO ZIP            " << endl;
@@ -235,24 +302,19 @@ int main(){
             break;
         }
 
-        ifstream file("download.bmp",ios::binary);
-        if(!file.is_open()){
-            cerr << "Erro ao abrir o arquivo BMP" << endl;
-            return 1;
-        }
-
-        string content((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
-        file.close();
-        
-        vector<string> compressed = compression(content);
+        //string ascii = bmpToAscii("convert_to_image.bmp");
+        std::ifstream file("Teste1.txt");
+        stringstream buffer;
+        buffer << file.rdbuf();
+        string conteudo = buffer.str();
+        cout << conteudo << endl;
+        vector<string> compressed = compression(conteudo,15);
 
         string aux = "";
 
         for(auto it: compressed) aux += it;
 
-        ofstream outputFile("download.bmp.lzw", ios::binary);
-        outputFile << aux;
-        outputFile.close();
+        writeBinaryStringToFile(aux, "Teste1.txt.lzw");
  
     }
 
