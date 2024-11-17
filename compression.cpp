@@ -98,7 +98,7 @@ vector<int> bin2str(vector<string> bin){
     return aux;
 }
 
-void decompression(vector<int> codein, int max=12){
+string decompression(vector<int> codein, int max=12){
     Dicionario table;
     for(int i=0; i<=255;i++){
         table.insert(string(1, char(i)), toBin(i));
@@ -132,7 +132,7 @@ void decompression(vector<int> codein, int max=12){
         term = entry;
     }
      
-    cout << output << endl;
+    return output;
 }
 
 
@@ -176,7 +176,7 @@ vector<string> compressionFixed(string text, int max = 12){
 }
 
 
-void decompressionFixed(vector<int> codein, int max=12){
+string decompressionFixed(vector<int> codein, int max=12){
     Dicionario table;
     for(int i=0; i<=255;i++){
         table.insert(string(1, char(i)), toBin(i));
@@ -210,22 +210,51 @@ void decompressionFixed(vector<int> codein, int max=12){
         term = entry;
     }
      
-    cout << output << endl;
+    return output;
 }
 
 int main(){
-    string aux = "A tecnologia se tornou uma parte fundamental do mundo contemporâneo, moldando a forma como as pessoas vivem, trabalham e interagem. Desde as primeiras invenções, como a roda e a prensa de Gutemberg, até os avanços mais recentes em inteligência artificial e biotecnologia, a evolução tecnológica tem sido um motor propulsor de mudanças econômicas, sociais e culturais. Em uma era marcada pela digitalização e pela conectividade global, entender o impacto da tecnologia é essencial para se adaptar e prosperar nesse novo paradigma. Uma das áreas mais notáveis de avanço tecnológico é a da comunicação. O surgimento da internet transformou a maneira como as pessoas trocam informações, permitindo a comunicação instantânea e o acesso a um volume vasto de conhecimento. Ferramentas como e-mail, mensagens instantâneas e redes sociais conectam indivíduos em diferentes partes do mundo, criando uma sociedade global interligada. Essa conectividade trouxe benefícios substanciais, como a disseminação de ideias e a promoção de movimentos sociais, mas também levantou desafios significativos, incluindo questões de privacidade e a propagação de desinformação. No campo da saúde, a tecnologia desempenha um papel crucial. Procedimentos médicos que antes eram complexos e arriscados agora são realizados com maior precisão e menos riscos, graças a tecnologias como a robótica cirúrgica e a telemedicina. Dispositivos portáteis de monitoramento permitem que pacientes acompanhem em tempo real seus sinais vitais, melhorando o diagnóstico precoce e a gestão de doenças crônicas. Além disso, avanços na engenharia genética e na biotecnologia abriram portas para tratamentos inovadores, como a edição de genes, que tem o potencial de curar doenças hereditárias. A automação e a inteligência artificial (IA) são outra vertente de destaque. Com algoritmos sofisticados, a IA é capaz de processar grandes volumes de dados, identificar padrões complexos e tomar decisões que antes eram exclusivas do pensamento humano. Isso levou à criação de sistemas que automatizam tarefas repetitivas, aumentando a produtividade em setores como a manufatura, a logística e os serviços financeiros. No entanto, a adoção de tecnologias de automação também suscita debates sobre o futuro do trabalho, uma vez que muitas ocupações tradicionais estão sendo substituídas por máquinas. A educação também tem sido profundamente influenciada pela tecnologia. Plataformas de aprendizado online, cursos virtuais e recursos digitais ampliaram o acesso ao ensino, permitindo que pessoas em locais remotos ou com horários flexíveis adquiram conhecimento. Ferramentas educacionais baseadas em IA podem personalizar a experiência de aprendizado, adaptando o conteúdo e o ritmo conforme as necessidades do aluno. Contudo, a dependência crescente de tecnologias digitais na educação levanta preocupações sobre desigualdade de acesso, uma vez que nem todos os alunos têm os recursos necessários para aproveitar essas inovações. Outro aspecto transformador da tecnologia é o impacto ambiental. Por um lado, o desenvolvimento de tecnologias sustentáveis, como energia solar e eólica, oferece alternativas mais limpas às fontes de energia tradicionais, ajudando a combater as mudanças climáticas. Por outro lado, a produção e o descarte de dispositivos eletrônicos geram grandes quantidades de resíduos e poluentes, exigindo uma gestão mais responsável dos recursos tecnológicos. Inovações em reciclagem e economia circular são fundamentais para minimizar os danos ambientais e promover um uso mais consciente da tecnologia. Finalmente, a ética e a regulamentação tecnológica são questões cada vez mais debatidas. À medida que novas tecnologias emergem, surge a necessidade de estabelecer diretrizes que assegurem um desenvolvimento responsável e equilibrado. Temas como a proteção de dados pessoais, a transparência nos algoritmos e a responsabilidade em casos de falhas tecnológicas exigem a atenção de governos, empresas e da sociedade civil. Somente por meio de um diálogo aberto e de políticas bem-definidas será possível garantir que a tecnologia continue sendo uma força para o bem comum, sem comprometer os direitos individuais e a equidade social. Em suma, a tecnologia está indissociavelmente ligada ao progresso humano, oferecendo tanto oportunidades quanto desafios. O futuro promete avanços ainda mais surpreendentes, com tecnologias emergentes como computação quântica e interfaces cérebro-computador. A capacidade de usar essas ferramentas de forma consciente e ética será um fator determinante para o sucesso e a sustentabilidade da sociedade global.A tecnologia se tornou uma parte fundamental do mundo contemporâneo, moldando a forma como as pessoas vivem, trabalham e interagem. Desde as primeiras invenções, como a roda e a prensa de Gutemberg, até os avanços mais recentes em inteligência artificial e biotecnologia, a evolução tecnológica tem sido um motor propulsor de mudanças econômicas, sociais e culturais. Em uma era marcada pela digitalização e pela conectividade global, entender o impacto da tecnologia é essencial para se adaptar e prosperar nesse novo paradigma. Uma das áreas mais notáveis de avanço tecnológico é a da comunicação. O surgimento da internet transformou a maneira como as pessoas trocam informações, permitindo a comunicação instantânea e o acesso a um volume vasto de conhecimento. Ferramentas como e-mail, mensagens instantâneas e redes sociais conectam indivíduos em diferentes partes do mundo, criando uma sociedade global interligada. Essa conectividade trouxe benefícios substanciais, como a disseminação de ideias e a promoção de movimentos sociais, mas também levantou desafios significativos, incluindo questões de privacidade e a propagação de desinformação. No campo da saúde, a tecnologia desempenha um papel crucial. Procedimentos médicos que antes eram complexos e arriscados agora são realizados com maior precisão e menos riscos, graças a tecnologias como a robótica cirúrgica e a telemedicina. Dispositivos portáteis de monitoramento permitem que pacientes acompanhem em tempo real seus sinais vitais, melhorando o diagnóstico precoce e a gestão de doenças crônicas. Além disso, avanços na engenharia genética e na biotecnologia abriram portas para tratamentos inovadores, como a edição de genes, que tem o potencial de curar doenças hereditárias. A automação e a inteligência artificial (IA) são outra vertente de destaque. Com algoritmos sofisticados, a IA é capaz de processar grandes volumes de dados, identificar padrões complexos e tomar decisões que antes eram exclusivas do pensamento humano. Isso levou à criação de sistemas que automatizam tarefas repetitivas, aumentando a produtividade em setores como a manufatura, a logística e os serviços financeiros. No entanto, a adoção de tecnologias de automação também suscita debates sobre o futuro do trabalho, uma vez que muitas ocupações tradicionais estão sendo substituídas por máquinas. A educação também tem sido profundamente influenciada pela tecnologia. Plataformas de aprendizado online, cursos virtuais e recursos digitais ampliaram o acesso ao ensino, permitindo que pessoas em locais remotos ou com horários flexíveis adquiram conhecimento. Ferramentas educacionais baseadas em IA podem personalizar a experiência de aprendizado, adaptando o conteúdo e o ritmo conforme as necessidades do aluno. Contudo, a dependência crescente de tecnologias digitais na educação levanta preocupações sobre desigualdade de acesso, uma vez que nem todos os alunos têm os recursos necessários para aproveitar essas inovações.";
-    vector<string> cod = compression(aux);
-    vector<string> ans;
-    for(auto it: cod){
-        cout << it << endl;
+    cout << "--------------------------------------" << endl;
+    cout << "               PROJETO ZIP            " << endl;
+    cout << "--------------------------------------" << endl;
+    cout << " Caroline Carvalho e Deborah Yamamoto " << endl;
+    cout << "--------------------------------------" << endl;
+    cout << endl;
+    int opt;
+    while (true) {
+        cout << "Opções de execução: " << endl;
+        cout << "0: Parar execução" << endl;
+        cout << "1: Compressão de arquivo com tamanho fixo" << endl;
+        cout << "2: Compressão de arquivo com tamanho variavel" << endl;
+        cout << "3: Descompressão arquivo com tamanho fixo" << endl;
+        cout << "4: Descompressão arquivo com tamanho variavel" << endl;
+        cin >> opt;
+
+        if (opt == 0) {
+            cout << "Encerrando o programa." << endl;
+            break;
+        }
+
+        ifstream file("download.bmp",ios::binary);
+        if(!file.is_open()){
+            cerr << "Erro ao abrir o arquivo BMP" << endl;
+            return 1;
+        }
+
+        string content((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
+        file.close();
+        
+        vector<string> compressed = compression(content);
+
+        string aux = "";
+
+        for(auto it: compressed) aux += it;
+
+        ofstream outputFile("download.bmp.lzw", ios::binary);
+        outputFile << aux;
+        outputFile.close();
+ 
     }
-    vector<int> codin = bin2str(cod);
-    decompression(codin);
-    cod = compressionFixed(aux);
-    for(auto it: cod){
-        cout << it << endl;
-    }
-    codin = bin2str(cod);
-    decompressionFixed(codin);
+
+
 }
