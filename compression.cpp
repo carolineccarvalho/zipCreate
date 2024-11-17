@@ -71,7 +71,7 @@ vector<string> compression(string text, int max = 12){
             term = term + symbol;
         }else{
             out.push_back(table.getPalavra(term));
-            if(bit<=max) table.getPalavra(term + symbol) = completa(toBin(value++),bit);
+            if(bit<=max) table.insert(completa(toBin(value++),bit), (term + symbol));
             else{
                 table.clear();
                 for(int i=0; i<=255;i++){
@@ -79,7 +79,7 @@ vector<string> compression(string text, int max = 12){
                 }
                 value = 256;
                 bit = 9;
-                table.getPalavra(term + symbol) = completa(toBin(value++),bit);
+                table.insert(completa(toBin(value++),bit), (term + symbol));
 
             }
             term = symbol;
@@ -119,14 +119,14 @@ string decompression(vector<int> codein, int max=12){
             entry = table.getPalavra(toBin(code));
         }      
         output += entry;
-        if(bit<=max) table.getPalavra(toBin(value++)) = term + entry[0];
+        if(bit<=max) table.insert(term + entry[0], toBin(value++));
         else{
             table.clear();
             for(int i=0; i<=255;i++){
                 table.insert(string(1, char(i)), toBin(i));
             }
             value = 256;
-            table.getPalavra(toBin(value++)) = term + entry[0];
+           table.insert(term + entry[0], toBin(value++));
             bit=9;
         }
         term = entry;
@@ -156,7 +156,7 @@ vector<string> compressionFixed(string text, int max = 12){
             term = term + symbol;
         }else{
             out.push_back(table.getPalavra(term));
-            if(bit<=max) table.getPalavra(term + symbol) = completa(toBin(value++),bit2);
+            if(bit<=max) table.insert(completa(toBin(value++),bit2), term + symbol);
             else{
                 table.clear();
                 for(int i=0; i<=255;i++){
@@ -164,7 +164,7 @@ vector<string> compressionFixed(string text, int max = 12){
                 }
                 value = 256;
                 bit = 9;
-                table.getPalavra(term + symbol) = completa(toBin(value++),bit2);
+                table.insert(completa(toBin(value++),bit2), term + symbol);
 
             }
             term = symbol;
@@ -197,14 +197,14 @@ string decompressionFixed(vector<int> codein, int max=12){
             entry = table.getPalavra(toBin(code));
         }      
         output += entry;
-        if(bit<=max) table.getPalavra(toBin(value++)) = term + entry[0];
+        if(bit<=max) table.insert(term + entry[0], toBin(value++));
         else{
             table.clear();
             for(int i=0; i<=255;i++){
                 table.insert(string(1, char(i)), toBin(i));
             }
             value = 256;
-            table.getPalavra(toBin(value++)) = term + entry[0];
+            table.insert(term + entry[0], toBin(value++));
             bit = 9;
         }
         term = entry;
@@ -231,52 +231,6 @@ void writeBinaryStringToFile(const std::string& binStr, const std::string& filen
 
     outputFile.close();
     std::cout << "Arquivo binário escrito com sucesso!" << std::endl;
-}
-
-const char* grayscaleMap = "@%#*+=-:. ";  // Mapa de caracteres ASCII
-
-// Função para converter um pixel RGB em tom de cinza
-unsigned char rgbToGray(unsigned char r, unsigned char g, unsigned char b) {
-    return static_cast<unsigned char>(0.299 * r + 0.587 * g + 0.114 * b);
-}
-
-// Função para ler um arquivo BMP simples
-string bmpToAscii(const std::string& filename) {
-    std::ifstream file(filename, std::ios::binary);
-    if (!file) {
-        std::cerr << "Erro ao abrir o arquivo." << std::endl;
-        return "";
-    }
-
-    unsigned char header[54];
-    file.read(reinterpret_cast<char*>(header), 54);
-
-    // Verifica se é um arquivo BMP
-    if (header[0] != 'B' || header[1] != 'M') {
-        std::cerr << "Arquivo não é um BMP válido." << std::endl;
-        return"";
-    }
-
-    int width = header[18] | (header[19] << 8) | (header[20] << 16) | (header[21] << 24);
-    int height = header[22] | (header[23] << 8) | (header[24] << 16) | (header[25] << 24);
-
-    int rowPadded = (width * 3 + 3) & (~3);
-    if (rowPadded <= 0 || width <= 0 || height <= 0) {
-        std::cerr << "Dimensões da imagem são inválidas." << std::endl;
-        return "";
-    }
-    string aux = "";
-    std::vector<unsigned char> row(rowPadded);
-    for (int i = 0; i < height; i++) {
-        file.read(reinterpret_cast<char*>(row.data()), rowPadded);
-        for (int j = 0; j < width * 3; j += 3) {
-            unsigned char gray = rgbToGray(row[j + 2], row[j + 1], row[j]);
-            char asciiChar = grayscaleMap[gray * 9 / 255];
-            aux += asciiChar;
-        }
-    }
-    file.close();
-    return aux;
 }
 
 
@@ -308,7 +262,7 @@ int main(){
         buffer << file.rdbuf();
         string conteudo = buffer.str();
         cout << conteudo << endl;
-        vector<string> compressed = compression(conteudo,15);
+        vector<string> compressed = compression(conteudo);
 
         string aux = "";
 
