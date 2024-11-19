@@ -161,7 +161,7 @@ A função <code>decompressionFixed()</code> realiza a descompressão de uma seq
         Outro ponto se considerar é que tanto na compressão e descompressão, o arquivo deve estar na pasta raiz do projeto. 
  </p>
  <p>
- 1) Para ter acesso aos gráficos e tabelas, é necessário que os seguintes passos tenham sido seguidos:
+ 1) Para ter acesso aos gráficos e tabelas, é necessário que os seguintes passos sejam seguidos:
    <ol>
       <li>Acesse o seguinte link e siga o protocolo de instalação do Quarto: <a href="https://quarto.org/docs/get-started/">Quarto</a></li>
       <li> Certifique-se de que possui o ambiente configurado corretamente (RStudio, Visual Studio Code ou terminal).</li>
@@ -260,7 +260,31 @@ O seguinte gráfico facilita a visualização da descompressão:
 </p>
 <img src="imagens/g1idf.png"/>
 <h4>Compressão LZW Variável</h4>
+<p>
+Ao rodar o comando "ls -l" no terminal é possível observar o tamanho do arquivo antes e depois da compressão, e portanto, concluir que ela de fato aconteceu.
+</p>
+<img src="imagens/terminalicv.png"/>
+<p>
+A partir dessa compressão os seguintes dados foram gerados:
+</p>
+<img src="imagens/tabelaicv.jpeg"/>
+<p>
+O seguinte gráfico facilita a visualização da compressão:
+</p>
+<img src="imagens/g1icv.png"/>
 <h4>Descompressão LZW Variável</h4>
+<p>
+Ao rodar o comando "ls -l" no terminal é possível observar o tamanho do arquivo antes e depois da descompressão, note que o arquivo volta a ter o mesmo tamanho do arquivo original, indicando, assim, a descompressão.
+</p>
+<img src="imagens/terminalidv.png"/>
+<p>
+A partir dessa descompressão os seguintes dados foram gerados:
+</p>
+<img src="imagens/tabelaidv.jpeg"/>
+<p>
+O seguinte gráfico facilita a visualização da descompressão:
+</p>
+<img src="imagens/g1idv.png"/>
 <h2 id="colab"> Responsáveis</h2>
 <table>
   <tr>
