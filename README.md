@@ -203,7 +203,31 @@ O seguinte gráfico facilita a visualização da descompressão:
 </p>
 <img src="imagens/g1tdf.png"/>
 <h4>Compressão LZW Variável</h4>
+<p>
+Ao rodar o comando "ls -l" no terminal é possível observar o tamanho do arquivo antes e depois da compressão, e portanto, concluir que ela de fato aconteceu.
+</p>
+<img src="imagens/terminaltcv.png"/>
+<p>
+A partir dessa compressão os seguintes dados foram gerados:
+</p>
+<img src="imagens/tabelatcv.jpeg"/>
+<p>
+O seguinte gráfico facilita a visualização da compressão:
+</p>
+<img src="imagens/g1tcv.png"/>
 <h4>Descompressão LZW Variável</h4>
+<p>
+Ao rodar o comando "ls -l" no terminal é possível observar o tamanho do arquivo antes e depois da descompressão, note que o arquivo volta a ter o mesmo tamanho do arquivo original, indicando, assim, a descompressão.
+</p>
+<img src="imagens/terminaltdv.png"/>
+<p>
+A partir dessa descompressão os seguintes dados foram gerados:
+</p>
+<img src="imagens/tabelatdv.png"/>
+<p>
+O seguinte gráfico facilita a visualização da descompressão:
+</p>
+<img src="imagens/g1tdv.png"/>
 <h2 id="colab"> Responsáveis</h2>
 <table>
   <tr>
