@@ -155,6 +155,12 @@ A função <code>decompressionFixed()</code> realiza a descompressão de uma seq
 </p>
 
 <h2 id="instrucoes"> Instruções de Uso</h2>
+ <p>
+   1) Para compilar, é necessário escrever "make" na pasta raiz do projeto. Para executar, deve-se escrever "./main".
+   OBS: Por escolhas de projeto, na descompressão, o nome do arquivo a ser inserido é o mesmo do arquivo original, isto é, sem o ".lzw".
+ </p>
+
+
 <h2 id="testes"> Testes</h2>
 <h2 id="colab"> Responsáveis</h2>
 <table>
