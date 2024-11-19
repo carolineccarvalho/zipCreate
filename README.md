@@ -100,17 +100,32 @@ int main(){
 </code></pre>
 <img src = "imagens/remove.png" alt = "removeTrie" title = "Removerie" width="300">
 </ul>
-<h3>LZW de tamanho fixo</h3>
+<h3>LZW de tamanho variável</h3>
 <p>
- O algoritmo LZW é executado através de duas funções <code>compressionFixed()</code> e <code>decompressionFixed()</code>, que serão explicadas a seguir:
+ O algoritmo LZW variável é executado através de duas funções <code>compression()</code> e <code>decompression()</code>, que serão explicadas a seguir:
 </p>
 
 <p>
-O código da função <code>compressionFixed()</code> foi projetado para receber uma string como parâmetro e atribuir códigos a cada sequência de caracteres, que são então armazenadas em um dicionário (ou estrutura de dados semelhante a uma trie). Um aspecto importante dessa função é o controle de um inteiro auxiliar que rastreia a quantidade de códigos adicionados ao dicionário. A função também recebe um parâmetro inteiro <code>chamado max</code>, que representa o limite máximo de bits que podem ser usados para representar códigos. Enquanto esse auxiliar for menor ou igual ao valor de <code>max</code>, a função continua a adicionar novas sequências ao dicionário de forma incremental. No entanto, quando o auxiliar atinge um valor maior que <code>max</code>, a função deve redefinir esse auxiliar para 9 e esvaziar o dicionário para reiniciar a inserção de novas sequências.
+O código da função <code>compressionFixed()</code> foi projetado para receber uma string como parâmetro e atribuir códigos a cada sequência de caracteres, que são então armazenadas em um dicionário (ou estrutura de dados semelhante a uma trie). Um aspecto importante dessa função é o controle de um inteiro auxiliar que rastreia a quantidade de códigos adicionados ao dicionário. A função também recebe um parâmetro inteiro chamado <code>max</code>, que representa o limite máximo de bits que podem ser usados para representar códigos. Enquanto esse auxiliar for menor ou igual ao valor de <code>max</code>, a função continua a adicionar novas sequências ao dicionário de forma incremental. No entanto, quando o auxiliar atinge um valor maior que <code>max</code>, a função deve redefinir esse auxiliar para 9 e esvaziar o dicionário para reiniciar a inserção de novas sequências.
+</p>
+
+<p>
+A função <code>decompression()</code> descompacta uma sequência de códigos (<code>vector<int> codein</code>) que recebe como parâmetro. Inicialmente, ela constrói um dicionário com os caracteres ASCII e, conforme a descompressão avança, expande esse dicionário com novas sequências. O processo começa atribuindo o primeiro código à saída e iterando pelos demais códigos, verificando se a sequência existe no dicionário. Se não existir, trata-se de um caso especial que utiliza a própria sequência anterior para formar a nova entrada. O tamanho em bits (<code>bit</code>) aumenta conforme a tabela cresce, mas, ao ultrapassar um limite máximo definido (<code>max</code>), o dicionário é reiniciado. Por fim, a função retorna a string descompactada como resultado final.
 </p>
  
-<h3>LZW de tamanho variável</h3>
-   
+<h3>LZW de tamanho fixo</h3>
+<p>
+ O algoritmo LZW de tamanho fixo é executado através de duas funções <code>compressionFixed()</code> e <code>decompressionFixed()</code>, que serão explicadas a seguir:
+</p>
+<p>
+A função <code>compressionFixed()</code> realiza a compressão de uma string <code>text</code>. Inicialmente, ela cria um dicionário com todas as representações dos caracteres ASCII, codificados com um tamanho de bits definido pelo usuário ou 12, por padrão. A compressão começa com a conversão do primeiro caractere em bits e analisa cada caractere subsequente para formar sequências. Se a sequência atual concatenada com o próximo símbolo existir no dicionário, a função continua . Caso contrário, a função armazena a sequência encontrada, insere a nova combinação no dicionário e, se o limite de bits for ultrapassado, reinicializa a tabela e redefine o contador para manter o tamanho sob controle. A compressão é completada com a adição da última sequência ao vetor de saída, retornando assim um vetor de pares, onde cada par contém uma palavra compactada e o tamanho de sua representação.
+</p>
+
+<p>
+A função <code>decompressionFixed()</code> realiza a descompressão de uma sequência de códigos. Ela começa obtendo o primeiro código, convertendo-o para sua representação e iniciando a saída com essa palavra. Para cada código subsequente, verifica se ele está no dicionário e, se não estiver, concatena a sequência anterior com seu primeiro caractere. Caso contrário, a entrada correspondente é recuperada do dicionário e adicionada à saída. Novas sequências são inseridas no dicionário até que o número de bits atinja o limite máxim, onde a tabela é reinicializada. A função retorna a string descompactada após processar todos os códigos de entrada.
+</p>
+
+<h3>LZW de tamanho fixo</h3>
 <h2 id="instrucoes"> Instrucoes de Uso</h2>
 <h2 id="testes"> Testes</h2>
 <h2 id="colab"> Responsáveis</h2>
