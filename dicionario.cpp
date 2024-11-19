@@ -160,3 +160,19 @@ bool Dicionario::removeTrie(TrieNode* curr, const std::string& chave, int index)
     return false;
 }
 
+size_t Dicionario::calcularTamanhoTrie(TrieNode* node){
+    if(!node) return 0;
+    size_t tamanhoNode = sizeof(TrieNode);
+
+    for(auto& filho : node->filhos){
+        tamanhoNode += sizeof(string);
+        tamanhoNode += filho.first.capacity();
+        tamanhoNode += sizeof(TrieNode*);
+        tamanhoNode += calcularTamanhoTrie(filho.second);
+    }
+    return tamanhoNode;
+}
+
+size_t Dicionario::calcularTamanhoDicionario(){
+    return calcularTamanhoTrie(raiz);
+}

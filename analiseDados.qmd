@@ -1,0 +1,141 @@
+---
+title: "Análise de Compressão de Dados"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+---
+
+## Introdução
+Este relatório apresenta análises de estatísticas obtidas como fruto da compressão e descompressão do arquivo fornecido como entrada.
+
+## Carregamento dos Dados
+
+```{python}
+import pandas as pd
+import plotly.graph_objects as go
+
+dados = pd.read_csv("dados.csv")
+```
+
+# Comparação de Tamanho: Antes e Depois do Processamento
+```{python}
+#| label: barras_comp_quant_palavras
+# palavras_adicionadas,numero_resets,espaco_dicionario,texto_original,texto_com_des,taxa,tempo
+import plotly.graph_objects as go
+
+categorias = ['Antes', 'Depois']
+valores = [dados['texto_original'].iloc[0], dados['texto_com_des'].iloc[0]]
+
+fig = go.Figure(data=[
+    go.Bar(
+        x=categorias, 
+        y=valores, 
+        marker_color=['#4A90E2', '#E94E77'], 
+        text=[f'{v:,}' for v in valores], 
+        textposition='outside' 
+    )
+])
+
+fig.update_layout(
+    title=dict(
+        text='<b>Comparação do Tamanho do Arquivo Antes e Depois</b>', 
+        font=dict(size=16, family='Arial', color='black'), 
+        x=0.5
+    ),
+    xaxis_title='Categorias',
+    yaxis_title='Número de Palavras',
+    xaxis=dict(
+        tickfont=dict(size=12, family='Arial', color='black')
+    ),
+    yaxis=dict(
+        gridcolor='lightgray',
+        titlefont=dict(size=14),
+        tickfont=dict(size=12)
+    ),
+    template='plotly_white',
+    bargap=0.2, 
+    height=500, 
+    width=700
+)
+
+fig.show()
+
+```
+
+# Tabela Resumo
+```{python}
+#palavras_adicionadas,numero_resets,espaco_dicionario,texto_original,texto_com_des,taxa,tempo
+categorias = [
+    'Palavras Adicionadas', 'Número de Resets', 'Espaço Dicionário (Bytes)', 
+    'Texto de Entrada (Bits)', 'Arquivo Final (Bits)', 'Taxa do Processo(%)',
+    'Tempo de Execução (s)'
+]
+valores = [dados['palavras_adicionadas'].iloc[0], dados['numero_resets'].iloc[0], dados['espaco_dicionario'].iloc[0],dados['texto_original'].iloc[0],dados['texto_com_des'].iloc[0], dados['taxa'].iloc[0], dados['tempo'].iloc[0]]
+
+fig = go.Figure(data=[go.Table(
+    header=dict(
+        values=['<b>Categoria</b>', '<b>Valor</b>'],  
+        fill_color='#4A90E2',  
+        font=dict(color='white', size=14, family='Arial'), 
+        align='center',  
+        height=40 
+    ),
+    cells=dict(
+        values=[categorias, valores],
+        fill_color=[['#F0F8FF' if i % 2 == 0 else '#D3E4FF' for i in range(len(categorias))]],  # Alternar cores por linha
+        font=dict(color='black', size=12, family='Arial'),  # Fonte das células
+        align='left',  # Texto alinhado à esquerda para ambos os lados
+        height=30  # Altura das células
+    )
+)])
+
+fig.update_layout(
+    margin=dict(l=20, r=20, t=60, b=20), 
+    title=dict(
+        text='<b>Tabela de Dados do Processo</b>',  
+        font=dict(size=16, family='Arial', color='black'),
+        x=0.5
+    )
+)
+
+fig.show()
+
+```
+# Visualização da proporção entre padrões adicionados e espaço ocupado pelo dicionário
+
+```{python}
+categorias = ['Padrões Adicionados', 'Espaço Dicionário']
+
+valores = [dados['palavras_adicionadas'].iloc[0], dados['espaco_dicionario'].iloc[0]]
+
+fig = go.Figure(data =[
+    go.Bar(
+        x=categorias, 
+        y=valores, 
+        marker_color='skyblue', 
+        text=[f'{v:,}' for v in valores], 
+        textposition='outside' 
+    )
+])
+
+fig.update_layout(
+    margin=dict(l=100, r=100, t=50, b=50),  # Define margens laterais maiores para centralizar
+    title=dict(
+        text='<b>Comparação de Métricas</b>',
+        x=0.5,  # Centraliza o título
+        font=dict(size=16, family='Arial', color='black')
+    ),
+    xaxis_title='Categorias',
+    yaxis_title='Valores',
+    template='plotly_white',
+    bargap=0.2,
+    height=500,
+    width=700
+)
+
+fig.show()
+```
+
+
+

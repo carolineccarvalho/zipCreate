@@ -36,6 +36,8 @@ public:
     string stringTrie(TrieNode* curr, const std::string& codigo, const string& prefixo);
     string getPalavra(const string& codigo);
     void clear();
+    size_t calcularTamanhoTrie(TrieNode*node);
+    size_t calcularTamanhoDicionario();
 };
 
 #endif

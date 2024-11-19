@@ -2,7 +2,7 @@
 #include <codecvt>
 #include <locale>
 #include "dicionario.h"
-
+#include "compression.h"
 
 using namespace std;
 
@@ -38,7 +38,7 @@ char binTochar(string bin){
     return static_cast<char>(bits.to_ulong());
 }
 
-vector<pair<string,int>> compression(string text, int max = 12){
+vector<pair<string,int>> compression(string text, int max, int& palavrasAdicionadas, int& numeroResets, size_t& espacoDic){
     vector<pair<string,int>> out;
     Dicionario table;
     for(int i=0; i<=255;i++){
@@ -57,8 +57,11 @@ vector<pair<string,int>> compression(string text, int max = 12){
             term = term + symbol;
         }else{
             out.push_back({table.getPalavra(term),table.getPalavra(term).size()});
-            if(bit<=max) table.insert(completa(toBin(value++),bit), (term + symbol));
-            else{
+            if(bit<=max){
+                table.insert(completa(toBin(value++),bit), (term + symbol));
+                palavrasAdicionadas++;
+            }else{
+                numeroResets++;
                 table.clear();
                 for(int i=0; i<=255;i++){
                     table.insert(completa(toBin(i),8), byteTobits(char(i)));
@@ -72,7 +75,7 @@ vector<pair<string,int>> compression(string text, int max = 12){
         }
     }
 
-    
+    espacoDic = table.calcularTamanhoDicionario();
     out.push_back({table.getPalavra(term),table.getPalavra(term).size()});
     return out;
 }
@@ -85,7 +88,7 @@ vector<int> bin2str(vector<string> bin){
     return aux;
 }
 
-string decompression(vector<int> codein, int max=12){
+string decompression(vector<int> codein, int max, int& palavrasAdicionadas, int& numeroResets, size_t& espacoDic){
     Dicionario table;
     for(int i=0; i<=255;i++){
         table.insert(string(1, char(i)), toBin(i));
@@ -106,8 +109,11 @@ string decompression(vector<int> codein, int max=12){
             entry = table.getPalavra(toBin(code));
         }      
         output += entry;
-        if(bit<=max) table.insert(term + entry[0], toBin(value++));
-        else{
+        if(bit<=max) {
+            palavrasAdicionadas++;
+            table.insert(term + entry[0], toBin(value++));
+        }else{
+            numeroResets++;
             table.clear();
             for(int i=0; i<=255;i++){
                 table.insert(string(1, char(i)), toBin(i));
@@ -118,12 +124,12 @@ string decompression(vector<int> codein, int max=12){
         }
         term = entry;
     }
-     
+    espacoDic = table.calcularTamanhoDicionario(); 
     return output;
 }
 
 
-vector<pair<string,int>> compressionFixed(string text, int max = 12){
+vector<pair<string,int>> compressionFixed(string text, int max, int& palavrasAdicionadas, int& numeroResets, size_t& espacoDic){
     vector<pair<string,int>> out;
     Dicionario table;
     for(int i=0; i<=255;i++){
@@ -143,8 +149,11 @@ vector<pair<string,int>> compressionFixed(string text, int max = 12){
             term = term + symbol;
         }else{
             out.push_back({table.getPalavra(term),table.getPalavra(term).size()});
-            if(bit<=max) table.insert(completa(toBin(value++),bit2), term + symbol);
-            else{
+            if(bit<=max){
+                 table.insert(completa(toBin(value++),bit2), term + symbol);
+                 palavrasAdicionadas++;
+            }else{
+                numeroResets++;
                 table.clear();
                 for(int i=0; i<=255;i++){
                     table.insert(completa(toBin(i),bit2), byteTobits(char(i)));
@@ -157,7 +166,7 @@ vector<pair<string,int>> compressionFixed(string text, int max = 12){
             term = symbol;
         }
     }
-
+    espacoDic = table.calcularTamanhoDicionario();
     out.push_back({table.getPalavra(term),table.getPalavra(term).size()});
     return out;
 }
@@ -173,7 +182,7 @@ vector<int> apart(string entrada, vector<int> pos){
     return aux;
 }
 
-string decompressionFixed(vector<int> codein, int max=12){
+string decompressionFixed(vector<int> codein, int max, int& palavrasAdicionadas, int& numeroResets, size_t& espacoDic){
     Dicionario table;
     for(int i=0; i<=255;i++){
         table.insert(string(1, char(i)), toBin(i));
@@ -194,8 +203,11 @@ string decompressionFixed(vector<int> codein, int max=12){
             entry = table.getPalavra(toBin(code));
         }      
         output += entry;
-        if(bit<=max) table.insert(term + entry[0], toBin(value++));
-        else{
+        if(bit<=max) {
+            table.insert(term + entry[0], toBin(value++));
+            palavrasAdicionadas++;
+        }else{
+            numeroResets++;
             table.clear();
             for(int i=0; i<=255;i++){
                 table.insert(string(1, char(i)), toBin(i));
@@ -206,7 +218,7 @@ string decompressionFixed(vector<int> codein, int max=12){
         }
         term = entry;
     }
-     
+    espacoDic = table.calcularTamanhoDicionario();
     return output;
 }
 
@@ -306,7 +318,7 @@ vector<int> loadsize(const string& path) {
     return numbers;
 }
 
-void saveStringToFile(const string path, const string content) {
+void save(const string path, const string content) {
     ofstream outputFile(path, ios::binary);
     if (!outputFile) {
         cerr << "Erro ao abrir o arquivo para escrita: " << path << endl;
@@ -317,9 +329,10 @@ void saveStringToFile(const string path, const string content) {
     outputFile.close();
 }
 
-void compressionOPT(string filename, int max=12){
+void compressionOPT(string filename, int max, int& palavrasAdicionadas, int& numeroResets, size_t& espacoDic, int& texto_original, int& texto_comprimido){
     string conteudo = openFile(filename);
-    vector<pair<string,int>> compressed = compression(conteudo, max);
+    texto_original = conteudo.size();
+    vector<pair<string,int>> compressed = compression(conteudo, max, palavrasAdicionadas, numeroResets, espacoDic);
     vector<int> value;
     string aux = "";
 
@@ -327,15 +340,17 @@ void compressionOPT(string filename, int max=12){
         aux += it.first;
         value.push_back(it.second);
     }
+    texto_comprimido = (aux.size())/8;
     savesize(filename,value);
     write(aux, filename + ".lzw");
     cout << "Compressão concluída!" << endl;
 }
 
 
-void compressionFixedOPT(string filename, int max=12){
+void compressionFixedOPT(string filename, int max, int& palavrasAdicionadas, int& numeroResets, size_t& espacoDic, int& texto_original, int& texto_comprimido){
     string conteudo = openFile(filename);
-    vector<pair<string,int>> compressed = compressionFixed(conteudo, max);
+    texto_original = conteudo.size();
+    vector<pair<string,int>> compressed = compressionFixed(conteudo, max, palavrasAdicionadas, numeroResets, espacoDic);
     vector<int> value;
     string aux = "";
 
@@ -343,78 +358,29 @@ void compressionFixedOPT(string filename, int max=12){
         aux += it.first;
         value.push_back(it.second);
     }
+    texto_comprimido = (aux.size())/8;
     savesize(filename,value);
     write(aux, filename + ".lzw");
      cout << "Compressão concluída!" << endl;
 }
 
-void decompressionOPT(string filename, int max = 12){
+void decompressionOPT(string filename, int max, int& palavrasAdicionadas, int& numeroResets, size_t& espacoDic, int& texto_original, int& texto_descomprimido){
     vector<int> division = loadsize(filename);
+    texto_original = division.size();
     vector<int> code = apart(binary(filename + ".lzw"),division);
-    string dec = decompression(code, max);
-    saveStringToFile("Descompressed" + filename,dec);
+    string dec = decompression(code, max, palavrasAdicionadas, numeroResets, espacoDic);
+    save("Descompressed" + filename,dec);
+    texto_descomprimido = dec.size();
     cout << "Descompressão concluída!" << endl;
 
 }
 
-void decompressionFixedOPT(string filename, int max = 12){
+void decompressionFixedOPT(string filename, int max,  int& palavrasAdicionadas, int& numeroResets, size_t& espacoDic, int& texto_original, int& texto_descomprimido){
     vector<int> division = loadsize(filename);
+    texto_original = division.size();
     vector<int> code = apart(binary(filename + ".lzw"),division);
-    string dec = decompressionFixed(code, max);
-    saveStringToFile("DescompressedFixed" + filename,dec);
+    string dec = decompressionFixed(code, max, palavrasAdicionadas, numeroResets, espacoDic);
+    save("DescompressedFixed" + filename,dec);
+    texto_descomprimido = dec.size();
     cout << "Descompressão concluída!" << endl;
-}
-
-
-int main(){
-    cout << "--------------------------------------" << endl;
-    cout << "               PROJETO ZIP            " << endl;
-    cout << "--------------------------------------" << endl;
-    cout << " Caroline Carvalho e Deborah Yamamoto " << endl;
-    cout << "--------------------------------------" << endl;
-    cout << endl;
-    int opt;
-    while (true) {
-        cout << "Opções de execução: " << endl;
-        cout << "0: Parar execução" << endl;
-        cout << "1: Compressão de arquivo com tamanho fixo" << endl;
-        cout << "2: Compressão de arquivo com tamanho variavel" << endl;
-        cout << "3: Descompressão arquivo com tamanho fixo" << endl;
-        cout << "4: Descompressão arquivo com tamanho variavel" << endl;
-        cout << "--------------------------------------" << endl;
-        cin >> opt;
-        if (opt == 0) {
-            cout << "Encerrando o programa." << endl;
-            break;
-        }
-
-        cout << "Insira o nome do arquivo:" << endl;
-        string filename; cin >> filename;
-        cout << "--------------------------------------" << endl;
-        cout <<  "Insira o máximo de bits que será utilizado (caso não tenha uma resposta, insira 0): " << endl;
-        int bit; cin >> bit;
-        cout << "--------------------------------------" << endl;
-        if(!bit) bit = 12;
-
-        if(opt == 1){
-            compressionFixedOPT(filename,bit);
-             cout << "--------------------------------------" << endl;
-        } else if(opt == 2){
-            compressionFixedOPT(filename,bit);
-             cout << "--------------------------------------" << endl;
-        } else if(opt == 3){
-            decompressionFixedOPT(filename,bit);
-             cout << "--------------------------------------" << endl;
-        }else if(opt ==4){
-            decompressionOPT(filename,bit);
-             cout << "--------------------------------------" << endl;
-        }else{
-            cout << "Escolha uma opção válida" << endl;
-             cout << "--------------------------------------" << endl;
-        }
-       
- 
-    }
-
-
 }
