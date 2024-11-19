@@ -122,10 +122,31 @@ A função <code>compressionFixed()</code> realiza a compressão de uma string <
 </p>
 
 <p>
-A função <code>decompressionFixed()</code> realiza a descompressão de uma sequência de códigos. Ela começa obtendo o primeiro código, convertendo-o para sua representação e iniciando a saída com essa palavra. Para cada código subsequente, verifica se ele está no dicionário e, se não estiver, concatena a sequência anterior com seu primeiro caractere. Caso contrário, a entrada correspondente é recuperada do dicionário e adicionada à saída. Novas sequências são inseridas no dicionário até que o número de bits atinja o limite máxim, onde a tabela é reinicializada. A função retorna a string descompactada após processar todos os códigos de entrada.
+A função <code>decompressionFixed()</code> realiza a descompressão de uma sequência de códigos. Ela começa obtendo o primeiro código, convertendo-o para sua representação e iniciando a saída com essa palavra. Para cada código subsequente, verifica se ele está no dicionário e, se não estiver, concatena a sequência anterior com seu primeiro caractere. Caso contrário, a entrada correspondente é recuperada do dicionário e adicionada à saída. Novas sequências são inseridas no dicionário até que o número de bits atinja o limite máximo, onde a trie é reinicializada. A função retorna a string descompactada após processar todos os códigos de entrada.
 </p>
 
-<h3>LZW de tamanho fixo</h3>
+<h3>Funções intermediárias relevantes</h3>
+<p>
+ A função <code>openFile()</code> recebe o nome do arquivo, realiza a abertura de dele através do <code>ifstream</code> e retorna uma string com o conteúdo do arquivo.
+</p>
+<p>
+ A função <code>write()</code> recebe o nome do arquivo original e escreve um um arquivo com a extensão .lzw. A string binária é convertida para binário com bitset e esse conteúdo é salvo no arquivo. Sua criação foi necessaria, pois, anteriormente, o valor que estava sendo salvo era uma string de 0 ou 1, que aumentava o tamanho do arquivo e não comprimia.
+</p>
+<p>
+ A função <code>binary</code> pega o arquivo binário e transforma para uma string de zero e um, considerando os códigos binários em ASCII. Para essa execução, ele percorre cada caractere do texto e transforma esse caractere em uma string binária e concatena o resultado em uma variavel.
+</p>
+<p>
+ A função <code>byteTobits()</code> transforma um caractere para sua string binária através do bitset.
+</p>
+<p>
+ A função <code>savesize()</code> salva o tamanho em bit para cada código em um arquivo, em uma pasta "cache".
+</p>
+<p>
+  A função <code>loadsize()</code> recupera o tamanho em bit para cada código localizada no arquivo.
+</p>
+
+
+
 <h2 id="instrucoes"> Instrucoes de Uso</h2>
 <h2 id="testes"> Testes</h2>
 <h2 id="colab"> Responsáveis</h2>
