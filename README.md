@@ -144,10 +144,17 @@ A função <code>decompressionFixed()</code> realiza a descompressão de uma seq
 <p>
   A função <code>loadsize()</code> recupera o tamanho em bit para cada código localizada no arquivo.
 </p>
+<p>
+  A função <code>save()</code> salva a string em um arquivo com a mesma extensão original.
+</p>
+<p>
+  A função <code>apart()</code> divide a string binária de acordo com o tamanho de bit armazenado na pasta cache.
+</p>
+<p>
+  As funções <code>compressionOPT()</code>, <code>decompressionOPT()</code>, <code>compressionFixedOPT()</code>, <code>decompressionFixedOPT()</code> são funções que executam o passo completo para a compressão ou descompressão. Sua criação foi necessária para facilitar a chamada no main.
+</p>
 
-
-
-<h2 id="instrucoes"> Instrucoes de Uso</h2>
+<h2 id="instrucoes"> Instruções de Uso</h2>
 <h2 id="testes"> Testes</h2>
 <h2 id="colab"> Responsáveis</h2>
 <table>
