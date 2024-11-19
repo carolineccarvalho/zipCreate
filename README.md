@@ -177,8 +177,32 @@ A função <code>decompressionFixed()</code> realiza a descompressão de uma seq
 <h3> Teste 1 - Livro Campo Geral</h3>
 <img src="imagens/campo_geral.png" />
 <h4>Compressão LZW Fixo</h4>
-<h4>Compressão LZW Variável</h4>
+<p>
+Ao rodar o comando "ls -l" no terminal é possível observar o tamanho do arquivo antes e depois da compressão, e portanto, concluir que ela de fato aconteceu.
+</p>
+<img src="imagens/terminaltcf.png"/>
+<p>
+A partir dessa compressão os seguintes dados foram gerados:
+</p>
+<img src="imagens/tabelatcf.png"/>
+<p>
+O seguinte gráfico facilita a visualização da compressão:
+</p>
+<img src="imagens/g1tcf.png"/>
 <h4>Descompressão LZW Fixo</h4>
+<p>
+Ao rodar o comando "ls -l" no terminal é possível observar o tamanho do arquivo antes e depois da descompressão, note que o arquivo volta a ter o mesmo tamanho do arquivo original, indicando, assim, a descompressão.
+</p>
+<img src="imagens/terminaltdf.jpeg"/>
+<p>
+A partir dessa descompressão os seguintes dados foram gerados:
+</p>
+<img src="imagens/tabelatdf.jpeg"/>
+<p>
+O seguinte gráfico facilita a visualização da descompressão:
+</p>
+<img src="imagens/g1tdf.png"/>
+<h4>Compressão LZW Variável</h4>
 <h4>Descompressão LZW Variável</h4>
 <h2 id="colab"> Responsáveis</h2>
 <table>

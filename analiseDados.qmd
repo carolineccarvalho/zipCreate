@@ -68,7 +68,7 @@ fig.show()
 #palavras_adicionadas,numero_resets,espaco_dicionario,texto_original,texto_com_des,taxa,tempo
 categorias = [
     'Palavras Adicionadas', 'Número de Resets', 'Espaço Dicionário (Bytes)', 
-    'Texto de Entrada (Bits)', 'Arquivo Final (Bits)', 'Taxa do Processo(%)',
+    'Texto de Entrada (Bytes)', 'Arquivo Final (Bytes)', 'Taxa do Processo(%)',
     'Tempo de Execução (s)'
 ]
 valores = [dados['palavras_adicionadas'].iloc[0], dados['numero_resets'].iloc[0], dados['espaco_dicionario'].iloc[0],dados['texto_original'].iloc[0],dados['texto_com_des'].iloc[0], dados['taxa'].iloc[0], dados['tempo'].iloc[0]]
