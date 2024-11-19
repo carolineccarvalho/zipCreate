@@ -103,11 +103,11 @@ int main(){
 <h3>LZW de tamanho fixo</h3>
     <p>
     Para a implementação do LZW de tamanho fixo foram realizadas duas funções: <code>compressionFixed()<\code> e <code>decompressionFixed()<\code>, que serão explicadas abaixo:
-     
+    <\p>
     - <code>compressionFixed()<\code>: essa função implementa o algoritmo de compressão fixo de LZW, onde recebe uma string e um inteiro com valor default igual a 12. Esta função retorna um vetor de pares, onde cada par possui o código em binário da compressão de sequencias e o tamanho dessa sequência.
      
     - <code>decompressionFixed()<\code>: essa função implementa o algoritmo de descompressão fixo de LZW, onde recebe um vetor de inteiros e um inteiro com valor default igual a 12. Esta função retorna a string descomprimida, ou seja, o texto original.
-     <\p>
+     
 <h3>LZW de tamanho variável</h3>
      
     Para a implementação do LZW de tamanho fixo foram realizadas duas funções: <code>compression()<\code> e <code>decompression()<\code>, que serão explicadas abaixo:
