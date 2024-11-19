@@ -3,9 +3,8 @@
  <a href="#tech">Tecnologias</a> • 
  <a href="#intro">Introdução</a> • 
  <a href="#métodos">Métodos e Implementações</a> •
- <a href="#comdes">Funcionamento de Compressão e Descompressão</a> •
  <a href="#testes">Testes e Análise</a> • 
- <a href="#inst">Instruções de Uso</a> • 
+ <a href="#instrucoes">Instruções de Uso</a> • 
  <a href="#colab">Responsáveis</a> •
 </p>
 <p align="center">
@@ -161,15 +160,32 @@ A função <code>decompressionFixed()</code> realiza a descompressão de uma seq
    OBS: Por escolhas de projeto, na descompressão, o nome do arquivo a ser inserido é o mesmo do arquivo original, isto é, sem o ".lzw".
         Outro ponto se considerar é que tanto na compressão e descompressão, o arquivo deve estar na pasta raiz do projeto. 
  </p>
+ <p>
+ 1) Para ter acesso aos gráficos e tabelas, é necessário que os seguintes passos tenham sido seguidos:
+   <ol>
+      <li>Acesse o seguinte link e siga o protocolo de instalação do Quarto: <a href="https://quarto.org/docs/get-started/">Quarto</a></li>
+      <li> Certifique-se de que possui o ambiente configurado corretamente (RStudio, Visual Studio Code ou terminal).</li>
+      <li> Abra o arquivo 'analiseDados.qmd' no ambiente de sua preferência. </li>
+      <li> Para renderizar o relatório, execute o comando abaixo no terminal: quarto render analiseDados.qmd" </li>
+        (Certifique-se de estar no mesmo diretório do arquivo).
+      <li> Após a execução, o relatório estará disponível no formato HTML, PDF ou outro, dependendo de como foi configurado.</li>
+   </ol>
+ </p>
 
 
 <h2 id="testes"> Testes</h2>
+<h3> Teste 1 - Livro Campo Geral</h3>
+<img src="imagens/campo_geral.png" />
+<h4>Compressão LZW Fixo</h4>
+<h4>Compressão LZW Variável</h4>
+<h4>Descompressão LZW Fixo</h4>
+<h4>Descompressão LZW Variável</h4>
 <h2 id="colab"> Responsáveis</h2>
 <table>
   <tr>
     <td align="center">
       <a href="#">
-        <img src="https://avatars.githubusercontent.com/u/119982741?v=4" width="100px;" alt="Fernanda Kipper Profile Picture"/><br>
+        <img src="https://avatars.githubusercontent.com/u/119982741?v=4" width="100px;" alt="Déborah picture"/><br>
         <sub>
           <b>Déborah Yamamoto</b>
         </sub>
@@ -177,7 +193,7 @@ A função <code>decompressionFixed()</code> realiza a descompressão de uma seq
     </td>
     <td align="center">
       <a href="#">
-        <img src="https://avatars.githubusercontent.com/u/103433489?v=4" width="100px;" alt="Elon Musk Picture"/><br>
+        <img src="https://avatars.githubusercontent.com/u/103433489?v=4" width="100px;" alt="Carol picture"/><br>
         <sub>
           <b>Caroline Carvalho</b>
         </sub>
