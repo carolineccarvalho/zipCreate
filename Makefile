@@ -1,25 +1,24 @@
-CC := g++
-SRCDIR := src
-BUILDDIR := build
-TARGET := main
+# Nome do executável
+EXEC = main
 
-SRCEXT := cpp
-SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
-OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-CFLAGS := -Wall -std=c++17
-INC := -I include/
+# Arquivos de origem
+SRC = main.cpp compression.cpp dicionario.cpp
 
-$(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) $^ -o $(TARGET)
+# Compilador e flags
+CXX = g++
+CXXFLAGS = # Flags opcionais de compilação
 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
+# Regra para compilar e criar o executável
+$(EXEC): $(SRC)
+	$(CXX) $(CXXFLAGS) $(SRC) -o $(EXEC)
 
-test: main
-	./main
+# Regra para rodar o executável
+run: $(EXEC)
+	./$(EXEC)
 
+# Limpeza dos arquivos compilados
 clean:
-	$(RM) -r $(BUILDDIR)/* $(TARGET)
+	rm -f $(EXEC)
 
-.PHONY: clean
+# Phony targets (não correspondem a arquivos físicos)
+.PHONY: clean run
