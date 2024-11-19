@@ -148,7 +148,7 @@ A função <code>decompressionFixed()</code> realiza a descompressão de uma seq
   A função <code>save()</code> salva a string em um arquivo com a mesma extensão original.
 </p>
 <p>
-  A função <code>apart()</code> divide a string binária de acordo com o tamanho de bit armazenado na pasta cache. Ela retorna o inteiro relacionado a cada string.
+  A função <code>apart()</code> divide a string binária de acordo com o tamanho de bit armazenado na pasta cache. Ela retorna um vetor de inteiro relacionado a cada string.
 </p>
 <p>
   As funções <code>compressionOPT()</code>, <code>decompressionOPT()</code>, <code>compressionFixedOPT()</code>, <code>decompressionFixedOPT()</code> são funções que executam o passo completo para a compressão ou descompressão. Sua criação foi necessária para facilitar a chamada no main.
