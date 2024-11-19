@@ -100,7 +100,14 @@ int main(){
 </code></pre>
 <img src = "imagens/remove.png" alt = "removeTrie" title = "Removerie" width="300">
 </ul>
-<h3>LZW de tamanho fixo</h3>
+<h3>LZW de tamanho fixo
+O algoritmo LZW é executado através de duas funções <code>compressionFixed()</code> e <code>decompressionFixed()</code>, que serão explicadas a seguir:
+
+O código da função <code>compressionFixed()</code> foi projetado para receber uma string como parâmetro e atribuir códigos a cada sequência de caracteres, que são então armazenadas em um dicionário (ou estrutura de dados semelhante a uma trie). Um aspecto importante dessa função é o controle de um inteiro auxiliar que rastreia a quantidade de códigos adicionados ao dicionário. A função também recebe um parâmetro inteiro <code>chamado max</code>, que representa o limite máximo de bits que podem ser usados para representar códigos. Enquanto esse auxiliar for menor ou igual ao valor de <code>max</code>, a função continua a adicionar novas sequências ao dicionário de forma incremental. No entanto, quando o auxiliar atinge um valor maior que <code>max</code>, a função deve redefinir esse auxiliar para 9 e esvaziar o dicionário para reiniciar a inserção de novas sequências.
+
+
+
+</h3>
  
 <h3>LZW de tamanho variável</h3>
    
