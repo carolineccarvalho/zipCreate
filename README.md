@@ -161,7 +161,7 @@ A função <code>decompressionFixed()</code> realiza a descompressão de uma seq
         Outro ponto se considerar é que tanto na compressão e descompressão, o arquivo deve estar na pasta raiz do projeto. 
  </p>
  <p>
- 1) Para ter acesso aos gráficos e tabelas, é necessário que os seguintes passos sejam seguidos:
+ 2) Para ter acesso aos gráficos e tabelas, é necessário que os seguintes passos sejam seguidos:
    <ol>
       <li>Acesse o seguinte link e siga o protocolo de instalação do Quarto: <a href="https://quarto.org/docs/get-started/">Quarto</a></li>
       <li> Certifique-se de que possui o ambiente configurado corretamente (RStudio, Visual Studio Code ou terminal).</li>
