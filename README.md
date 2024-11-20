@@ -3,8 +3,8 @@
  <a href="#tech">Tecnologias</a> • 
  <a href="#intro">Introdução</a> • 
  <a href="#métodos">Métodos e Implementações</a> •
- <a href="#testes">Testes e Análise</a> • 
  <a href="#instrucoes">Instruções de Uso</a> • 
+ <a href="#testes">Testes e Análise</a> • 
  <a href="#colab">Responsáveis</a> •
 </p>
 <p align="center">
