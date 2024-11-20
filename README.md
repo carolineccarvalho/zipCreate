@@ -166,7 +166,7 @@ A função <code>decompressionFixed()</code> realiza a descompressão de uma seq
       <li>Acesse o seguinte link e siga o protocolo de instalação do Quarto: <a href="https://quarto.org/docs/get-started/">Quarto</a></li>
       <li> Certifique-se de que possui o ambiente configurado corretamente (RStudio, Visual Studio Code ou terminal).</li>
       <li> Abra o arquivo 'analiseDados.qmd' no ambiente de sua preferência. </li>
-      <li> Para renderizar o relatório, execute o comando abaixo no terminal: quarto render analiseDados.qmd" </li>
+      <li> Para renderizar o relatório, execute o comando abaixo no terminal: quarto render analiseDados.qmd </li>
         (Certifique-se de estar no mesmo diretório do arquivo).
       <li> Após a execução, o relatório estará disponível no formato HTML, PDF ou outro, dependendo de como foi configurado.</li>
    </ol>
